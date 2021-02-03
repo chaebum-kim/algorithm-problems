@@ -5,6 +5,7 @@
 
 # My solution
 def findPair(nums, target):
+    
     length = len(nums)
 
     # Loop through an array of nums
@@ -34,7 +35,7 @@ def findPair2(nums, target):
         # If map value of number exists, return indexes
         if mapValue is not None:
             return [mapValue, i]
-        # If not, save numer to find as key and index of number as value
+        # If not, save number to find as key and index of number as value
         else:
             numsMap[target-nums[i]] = i
 
