@@ -59,8 +59,8 @@ def isPalindrome3(string):
 
     if string != reversedStr:
         return False
-    else:
-        return True
+
+    return True
 
 
 class TestSolutions(unittest.TestCase):
