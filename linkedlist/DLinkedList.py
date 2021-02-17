@@ -48,13 +48,6 @@ class DLinkedList:
 
         return self
 
-    def listprint(self):
-        current = self.head
-        while current is not None:
-            print(current.key, end=" ")
-            current = current.next
-        print("")
-
     def visualize(self):
         def visualizeNode(node: Node, index=0):
 
