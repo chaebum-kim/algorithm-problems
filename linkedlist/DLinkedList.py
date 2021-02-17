@@ -1,5 +1,4 @@
 from __future__ import annotations
-from array import *
 
 
 class Node:
