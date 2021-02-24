@@ -12,7 +12,7 @@ def insertion_sort(x: list) -> list:
 
     return x
 
-# Time complexity: O(n^2) // O(n) when almost sorted(best case)
+# Time complexity: O(n^2) // Ω(n) when almost sorted(best case)
 # Space complexity: O(1)
 
 
