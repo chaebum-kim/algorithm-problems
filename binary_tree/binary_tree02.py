@@ -45,5 +45,5 @@ if __name__ == '__main__':
     print(level_order_values(binary_tree))
 
     binary_tree = BinaryTree()
-    binary_tree.append(3)
+    binary_tree.insert(3)
     print(level_order_values(binary_tree))
