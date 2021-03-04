@@ -73,7 +73,8 @@ class BinaryTree:
                     values.append(None)
                 count += 1
 
-            result.append(values)
+            if q:
+                result.append(values)
 
         print(result)
 
