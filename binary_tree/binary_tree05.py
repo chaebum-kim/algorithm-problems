@@ -23,6 +23,9 @@ def validate_nodes(node: BinaryTree.BinaryTreeNode, floor: int, ceiling: int):
 
     return True
 
+# Time complexity: O(n)
+# Space complexity: O(n)
+
 
 # Test
 binary_tree1 = BinaryTree().make_tree_from_list([15, 12, 17, 10, 19, 16, 18])
