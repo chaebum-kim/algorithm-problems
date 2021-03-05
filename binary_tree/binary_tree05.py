@@ -28,12 +28,15 @@ def validate_nodes(node: BinaryTree.BinaryTreeNode, floor: int, ceiling: int):
 
 
 # Test
-binary_tree1 = BinaryTree().make_tree_from_list([15, 12, 17, 10, 19, 16, 18])
-binary_tree2 = BinaryTree().make_tree_from_list([15, 12, 18, 10, 14, 13, 20])
-binary_tree3 = BinaryTree().make_tree_from_list([12, 7, 18, 5, 9, 16, 25])
-binary_tree4 = BinaryTree().make_tree_from_list([1])
+if __name__ == '__main__':
+    binary_tree1 = BinaryTree().make_tree_from_list(
+        [15, 12, 17, 10, 19, 16, 18])
+    binary_tree2 = BinaryTree().make_tree_from_list(
+        [15, 12, 18, 10, 14, 13, 20])
+    binary_tree3 = BinaryTree().make_tree_from_list([12, 7, 18, 5, 9, 16, 25])
+    binary_tree4 = BinaryTree().make_tree_from_list([1])
 
-print(validate_binary_search_tree(binary_tree1))
-print(validate_binary_search_tree(binary_tree2))
-print(validate_binary_search_tree(binary_tree3))
-print(validate_binary_search_tree(binary_tree4))
+    print(validate_binary_search_tree(binary_tree1))
+    print(validate_binary_search_tree(binary_tree2))
+    print(validate_binary_search_tree(binary_tree3))
+    print(validate_binary_search_tree(binary_tree4))
