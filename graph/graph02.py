@@ -41,6 +41,7 @@ def is_valid_course1(n: int, prereqs: list) -> bool:
 # Space complexity: O(n^2)
 
 
+# Topological Sort
 def is_valid_course2(n: int, prereqs: list) -> bool:
 
     # Build graph from prereqs
@@ -65,6 +66,9 @@ def is_valid_course2(n: int, prereqs: list) -> bool:
                 stack.append(connection)
 
     return count == n
+
+# Time complexity: O(p+n^2)
+# Space complexity: O(n^2)
 
 
 # Test
