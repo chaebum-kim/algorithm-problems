@@ -8,11 +8,12 @@ from binary_tree import BinaryTree
 
 
 def max_depth(node, depth):
+
     if node is None:
         return depth
-    else:
-        depth += 1
-        return max([max_depth(node.left, depth), max_depth(node.right, depth)])
+
+    depth += 1
+    return max([max_depth(node.left, depth), max_depth(node.right, depth)])
 
 # Time complexity: O(n)
 # Space complexity: O(n)
