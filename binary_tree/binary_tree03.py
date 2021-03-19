@@ -45,13 +45,14 @@ def get_visible_nodes2(binary_tree: BinaryTree) -> list:
 
 def node_traverse(node: BinaryTree.BinaryTreeNode, level: int, values: list) -> list:
 
-    if node is not None:
+    if node is None:
+        return None
 
-        if len(values) == level:
-            values.append(node.key)
+    if len(values) == level:
+        values.append(node.key)
 
-        node_traverse(node.right, level+1, values)
-        node_traverse(node.left, level+1, values)
+    node_traverse(node.right, level+1, values)
+    node_traverse(node.left, level+1, values)
 
 # Time complexity: O(n)
 # Space complexity: O(n) -- depends on height of tree
