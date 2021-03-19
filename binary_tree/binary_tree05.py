@@ -3,25 +3,23 @@
 '''
 
 from binary_tree import BinaryTree
+import math
 
 
 def validate_binary_search_tree(binary_tree: BinaryTree) -> bool:
-    return validate_nodes(binary_tree.root, None, None)
+    return validate_nodes(binary_tree.root, -math.inf, math.inf)
 
 
 def validate_nodes(node: BinaryTree.BinaryTreeNode, floor: int, ceiling: int):
 
-    if node is not None:
-
-        if (floor is not None and node.key < floor) or (ceiling is not None and node.key > ceiling):
-            return False
-        if not validate_nodes(node.left, floor=floor, ceiling=node.key):
-            return False
-        if not validate_nodes(node.right, floor=node.key, ceiling=ceiling):
-            return False
+    if not node:
         return True
 
-    return True
+    if node.key < floor or node.key > ceiling:
+        return False
+
+    return validate_nodes(node.left, floor=floor, ceiling=node.key)\
+        and validate_nodes(node.right, floor=node.key, ceiling=ceiling)
 
 # Time complexity: O(n)
 # Space complexity: O(n)
