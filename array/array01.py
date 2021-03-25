@@ -3,44 +3,51 @@
     numbers that add up to a given target '''
 
 
-# My solution
-def findPair(nums, target):
-    
-    length = len(nums)
+# Brute force solution
+def find_two_sum_brute(nums: list, target: int) -> list:
 
-    # Loop through an array of nums
-    for i in range(0, length):
-        for j in range(i + 1, length):
-            if nums[j] == target - nums[i]:
+    for i, num1 in enumerate(nums):
+        for j, num2 in enumerate(nums[i+1:], i+1):
+            if num1 + num2 == target:
                 return [i, j]
-
-    # If there is no solution, return null
     return None
 
-# Time complexity: O(n^2)
+# Time complexity: O(N^2)
 # Space complexity: O(1)
 
 
-# Optimized solution
-def findPair2(nums, target):
+# Optimal solution
+def find_two_sum_optimal(nums: list, target: int) -> list:
 
-    length = len(nums)
-
-    # Loop through an array of nums
-    numsMap = {}
-    for i in range(0, length):
-        # Get map value of number
-        mapValue = numsMap.get(nums[i])
-
-        # If map value of number exists, return indexes
-        if mapValue is not None:
-            return [mapValue, i]
-        # If not, save number to find as key and index of number as value
+    map_ = {}  # {number2: index of number1} where number1 + number2 = target
+    for i, num in enumerate(nums):
+        j = map_.get(num)
+        if j is not None:
+            return[j, i]
         else:
-            numsMap[target-nums[i]] = i
-
-    # If there is no solution, return null
+            map_[target-num] = i
     return None
 
-# Time complexity: O(n)
-# Space complexity: O(n)
+# Time complexity: O(N)
+# Space complexity: O(N)
+
+
+# Tests
+if __name__ == '__main__':
+    nums1 = [2, 8, 4, 6, 9]
+    target1 = 17
+
+    nums2 = []
+    target2 = 2
+
+    nums3 = [1]
+    target3 = 3
+
+    # Expected return: [1, 4], None, None
+    print(find_two_sum_brute(nums1, target1))
+    print(find_two_sum_brute(nums2, target2))
+    print(find_two_sum_brute(nums3, target3))
+
+    print(find_two_sum_optimal(nums1, target1))
+    print(find_two_sum_optimal(nums2, target2))
+    print(find_two_sum_optimal(nums3, target3))
