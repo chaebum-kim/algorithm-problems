@@ -4,57 +4,57 @@
 *   Your solution should run in O(logn) time.
 '''
 
-import unittest
 
+# Solution
+def get_target_range(nums: list, target: int) -> list:
+    def binary_search(nums: list, target: int, low: int, high: int) -> int:
+        while low <= high:
+            mid = int((low+high)/2)
+            if nums[mid] == target:
+                return mid
+            elif nums[mid] < target:
+                low = mid + 1
+            else:
+                high = mid - 1
+        return -1
 
-def find_target_range(nums: list, key: int) -> list:
+    length = len(nums)
+    if length < 1:
+        return [-1, -1]
 
-    right = len(nums) - 1
-    found = binary_search(nums, key, 0, right)
-    start, end = found, found
+    mid = binary_search(nums, target, 0, length-1)
+    if mid == -1:
+        return [-1, -1]
 
-    if found != -1:
-        # Find starting index
-        candidate = start
-        while candidate != -1:
-            start = candidate
-            candidate = binary_search(nums, key, 0, start-1)
+    start = end = mid
+    temp = binary_search(nums, target, 0, start-1)
+    while temp != -1:
+        start = temp
+        temp = binary_search(nums, target, 0, start-1)
 
-        # Find ending index
-        candidate = end
-        while candidate != -1:
-            end = candidate
-            candidate = binary_search(nums, key, end+1, right)
+    temp = binary_search(nums, target, end+1, length-1)
+    while temp != -1:
+        end = temp
+        temp = binary_search(nums, target, end+1, length-1)
 
     return [start, end]
 
-# Time complexity: O(logn)
-# Space complexity: O(1)
-
-
-def binary_search(nums: list, key: int, left: int, right: int) -> int:
-
-    while left <= right:
-        mid = int((left + right) / 2)
-        if nums[mid] == key:
-            return mid
-        elif nums[mid] < key:
-            left = mid + 1
-        else:
-            right = mid - 1
-
-    return -1
-
-# Time complexity: O(logn)
+# Time complexity: O(logN)
 # Space complexity: O(1)
 
 
 # Test
-class TestSolution(unittest.TestCase):
-    def test_1(self):
-        self.assertEqual(find_target_range(
-            [1, 3, 3, 5, 5, 5, 8, 9], 5), [3, 5])
-
-
 if __name__ == '__main__':
-    unittest.main()
+    nums1 = [1, 2, 3, 4, 4, 4, 5, 6]
+    target1 = 4
+
+    nums2 = [3]
+    target2 = 3
+
+    nums3 = []
+    target3 = 1
+
+    # Expected result: [3, 5], [0, 0], [-1, -1]
+    print(get_target_range(nums1, target1))
+    print(get_target_range(nums2, target2))
+    print(get_target_range(nums3, target3))
