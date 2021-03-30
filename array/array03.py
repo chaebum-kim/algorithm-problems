@@ -1,6 +1,7 @@
 ''' Question:
 *   Given an array of integers representing an elevation map where the width of
 *   each bar is 1, return how much rainwater can be trapped.
+*   https://leetcode.com/problems/trapping-rain-water/
 '''
 
 
@@ -53,22 +54,3 @@ def measure_rainwater_optimal(nums: list) -> int:
 
 # Time complexity: O(N)
 # Space complexity: O(1)
-
-
-# Test
-if __name__ == '__main__':
-    nums1 = [0, 1, 0, 2, 1, 0, 3, 1, 0, 1, 2]
-    nums2 = []
-    nums3 = [3]
-    nums4 = [3, 4, 3]
-
-    # Expected result: 8, 0, 0, 0
-    print(measure_rainwater_brute(nums1))
-    print(measure_rainwater_brute(nums2))
-    print(measure_rainwater_brute(nums3))
-    print(measure_rainwater_brute(nums4))
-
-    print(measure_rainwater_optimal(nums1))
-    print(measure_rainwater_optimal(nums2))
-    print(measure_rainwater_optimal(nums3))
-    print(measure_rainwater_optimal(nums4))

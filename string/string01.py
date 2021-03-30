@@ -1,6 +1,7 @@
 ''' Question:
 *   Given two strings S and T, return if they equal when both are typed out.
 *   Any '#' that appears in the string counts as a backspace.
+*   https://leetcode.com/problems/backspace-string-compare/
 '''
 
 import itertools
@@ -62,7 +63,6 @@ def is_equal_optimal(s: str, t: str) -> bool:
 # Space complexity: O(1)
 
 
-# Optimal solution
 def is_equal_optimal2(s: str, t: str) -> bool:
     def F(string):
         skip = 0
@@ -78,28 +78,3 @@ def is_equal_optimal2(s: str, t: str) -> bool:
 
 # Time complexity: O(a+b)
 # Space complexity: O(1)
-
-
-# Test
-if __name__ == '__main__':
-    s1 = 'ab#c'
-    t1 = 'ac'
-
-    s2 = 'ab###c'
-    t2 = 'c'
-
-    s3 = ''
-    t3 = '###'
-
-    # Expected return: True, True, True
-    print(is_equal_brute(s1, t1))
-    print(is_equal_brute(s2, t2))
-    print(is_equal_brute(s3, t3))
-
-    print(is_equal_optimal(s1, t1))
-    print(is_equal_optimal(s2, t2))
-    print(is_equal_optimal(s3, t3))
-
-    print(is_equal_optimal2(s3, t3))
-    print(is_equal_optimal2(s3, t3))
-    print(is_equal_optimal2(s3, t3))

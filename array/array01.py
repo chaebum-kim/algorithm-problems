@@ -1,6 +1,8 @@
 ''' Question:
-    Given an array of integers, return the indices of the two
-    numbers that add up to a given target '''
+*   Given an array of integers, return the indices of the two
+*   numbers that add up to a given target
+*   https://leetcode.com/problems/two-sum/
+'''
 
 
 # Brute force solution
@@ -30,24 +32,3 @@ def find_two_sum_optimal(nums: list, target: int) -> list:
 
 # Time complexity: O(N)
 # Space complexity: O(N)
-
-
-# Tests
-if __name__ == '__main__':
-    nums1 = [2, 8, 4, 6, 9]
-    target1 = 17
-
-    nums2 = []
-    target2 = 2
-
-    nums3 = [1]
-    target3 = 3
-
-    # Expected return: [1, 4], None, None
-    print(find_two_sum_brute(nums1, target1))
-    print(find_two_sum_brute(nums2, target2))
-    print(find_two_sum_brute(nums3, target3))
-
-    print(find_two_sum_optimal(nums1, target1))
-    print(find_two_sum_optimal(nums2, target2))
-    print(find_two_sum_optimal(nums3, target3))

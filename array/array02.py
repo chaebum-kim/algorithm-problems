@@ -3,6 +3,7 @@
 *   the height of a vertical line on a chart. Find two lines which together
 *   with x-axis forms a container that would hold the greatest amount of water.
 *   Return the area of water it would hold.
+*   https://leetcode.com/problems/container-with-most-water/
 '''
 
 
@@ -42,16 +43,3 @@ def get_area_optimal(heights: list) -> int:
 
 # Time complexity: O(N)
 # Space complexity: O(1)
-
-
-# Test
-if __name__ == '__main__':
-    heights1 = [1, 3, 6, 2, 5]
-    heights2 = [1]
-
-    # Expected result: 10, 0
-    print(get_area_brute(heights1))
-    print(get_area_brute(heights2))
-
-    print(get_area_optimal(heights1))
-    print(get_area_optimal(heights2))
