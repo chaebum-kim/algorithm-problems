@@ -1,82 +1,48 @@
-import unittest
-
 ''' Question:
 *   Given a string, find the length of the longest substring without
 *   repeating characters
+*   https://leetcode.com/problems/longest-substring-without-repeating-characters/
 '''
 
 
 # Brute force solution
-def getLongestSubstringLength(string):
+def get_longest_substring_brute(s: str) -> int:
 
+    max_length = 0
     strlen = len(string)
-    maxLength = 0
+    for start in range(strlen):
+        seen = {}
+        length = 0
+        i = start
 
-    # Loop through string
-    for i in range(0, strlen):
-        substring = {}
-        currentLength = 0
-        j = i
+        while i < strlen and seen.get(string[i]) is None:
+            seen[string[i]] = True
+            length += 1
+            i += 1
 
-        while j < strlen and substring.get(string[j]) is None:
-            substring[string[j]] = True
-            currentLength += 1
+        max_length = max(max_length, length)
 
-            if currentLength > maxLength:
-                maxLength = currentLength
+    return max_length
 
-            j += 1
-
-    return maxLength
-
-# Time complexity: O(n^2)
-# Space complexity: O(n)
+# Time complexity: O(N^2)
+# Space complexity: O(N)
 
 
 # Optimal solution
-def getLongestSubstringLength2(string):
+def get_longest_substring_optimal(s: str) -> int:
 
-    strlen = len(string)
-
-    if strlen <= 1:
-        return strlen
-
-    # Set start pointer and maxLength
-    start = 0
-    maxLength = 0
+    max_length = start = 0
     seen = {}
 
-    for end, char in enumerate(string):
+    for end, char in enumerate(s):
+        # If character is repeated, update the starting index
+        if seen.get(char, -1) >= start:
+            start = seen[char] + 1
 
-        repeated = seen.get(char, -1)
         seen[char] = end
+        max_length = max(max_length, end-start+1)
 
-        if repeated >= start:
-            start = repeated + 1
-        else:
-            maxLength = max([maxLength, end-start+1])
+    return max_length
 
-    return maxLength
-
-# Time complexity: O(n)
-# Space complexity: O(n)
-
-
-# Test
-class TestSolutions(unittest.TestCase):
-
-    def test_brute_force_solution(self):
-        self.assertEqual(getLongestSubstringLength("abccabb"), 3)
-        self.assertEqual(getLongestSubstringLength("cccccc"), 1)
-        self.assertEqual(getLongestSubstringLength(""), 0)
-        self.assertEqual(getLongestSubstringLength("abcbda"), 4)
-
-    def test_optimal_solution(self):
-        self.assertEqual(getLongestSubstringLength2("abccabb"), 3)
-        self.assertEqual(getLongestSubstringLength2("cccccc"), 1)
-        self.assertEqual(getLongestSubstringLength2(""), 0)
-        self.assertEqual(getLongestSubstringLength2("abcbda"), 4)
-
-
-if __name__ == '__main__':
-    unittest.main()
+# Time complexity: O(N)
+# Space complexity: O(N)
