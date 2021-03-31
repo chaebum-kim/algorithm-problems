@@ -1,44 +1,25 @@
 ''' Question:
 *   Given a linked list, return it in reverse
+*   https://leetcode.com/problems/reverse-linked-list/
 '''
-from SLinkedList import Node, SLinkedList
 
 
-def reverseLinkedList(linkedlist: SLinkedList) -> SLinkedList:
+class ListNode:
+    def __init__(self, val=0, next_=None):
+        self.val = val
+        self.next = next_
 
-    prev = None
-    current = linkedlist.head
 
+def reverse_linked_list(head: ListNode) -> ListNode:
+
+    reversed_ = None
+    current = head
     while current is not None:
         next_ = current.next
-        current.next = prev
-        prev = current
+        current.next = reversed_
+        reversed_ = current
         current = next_
+    return reversed_
 
-    temp = linkedlist.head
-    linkedlist.head = linkedlist.tail
-    linkedlist.tail = temp
-
-    return linkedlist
-
-# Time complexity: O(n)
-# Space complexity: O()
-
-
-# Test
-node = Node(key=1)
-linkedlist = SLinkedList(head=node)
-
-node = Node(key=2)
-linkedlist.append(node=node)
-
-node = Node(key=3)
-linkedlist.append(node=node)
-
-node = Node(key=4)
-linkedlist.append(node=node)
-
-node = Node(key=5)
-linkedlist.append(node=node)
-
-reverseLinkedList(linkedlist).listprint()
+# Time complexity: O(N)
+# Space complexity: O(1)
