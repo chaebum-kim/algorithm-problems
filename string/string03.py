@@ -1,93 +1,51 @@
 ''' Question:
-*   Given a string, determine if it is a palindrome, considering only alphanumeric
+*   Given a s, determine if it is a palindrome, considering only alphanumeric
 *   characters and ignoring case sensitivity
+*   https://leetcode.com/problems/valid-palindrome/
 '''
-import unittest
+
 import re
 
 
-def isPalindrome1(string):
+def is_valid_palindrome1(s: str) -> bool:
 
-    # Replace non-alphanumeric characters with nothing
-    string = re.sub(r"[^a-zA-Z0-9]", "", string).lower()
+    s = re.sub(r'[^a-zA-Z0-9]', '', s).lower()
+    pl, pr = 0, len(s)-1
 
-    # Set pointers
-    pL = 0
-    pR = len(string) - 1
-
-    while pL < pR:
-        if string[pL] != string[pR]:
+    while pl <= pr:
+        if s[pl] != s[pr]:
             return False
-
-        pL += 1
-        pR -= 1
+        pl += 1
+        pr -= 1
 
     return True
 
 
-def isPalindrome2(string):
+def is_valid_palindrome2(s: str) -> bool:
 
-    # Replace non-alphanumeric characters with nothing
-    string = re.sub(r"[^a-zA-Z0-9]", "", string).lower()
-
-    # Set pointers
-    length = len(string)
-
+    s = re.sub(r'[^a-zA-Z0-9]', '', s).lower()
+    length = len(s)
     if length % 2 == 0:
-        pL = int(length/2) - 1
-        pR = pL + 1
+        pl = int(length/2) - 1
+        pr = pl + 1
     else:
-        pL = pR = int(length/2)
+        pl = pr = int(length/2)
 
-    while pL >= 0 and pR < length:
-        if string[pL] != string[pR]:
+    while pl >= 0 and pr < length:
+        if s[pl] != s[pr]:
             return False
-
-        pL -= 1
-        pR += 1
+        pl -= 1
+        pr += 1
 
     return True
 
 
-def isPalindrome3(string):
+def is_valid_palindrome3(s: str) -> bool:
 
-    # Replace non-alphanumeric characters with nothing
-    string = re.sub(r"[^a-zA-Z0-9]", "", string).lower()
+    s = re.sub(r'[^a-zA-Z0-9]', '', s).lower()
 
-    # Reverse string
-    reversedStr = string[::-1]
-
-    if string != reversedStr:
+    reversed_s = s[::-1]
+    if s != reversed_s:
         return False
 
     return True
-
-
-class TestSolutions(unittest.TestCase):
-    def test_solution_1(self):
-        self.assertEqual(isPalindrome1("aabaa"), True)
-        self.assertEqual(isPalindrome1("aabbaa"), True)
-        self.assertEqual(isPalindrome1("abc"), False)
-        self.assertEqual(isPalindrome1(""), True)
-        self.assertEqual(isPalindrome1("a"), True)
-        self.assertEqual(isPalindrome1("A man, a plan, a canal: Panama"), True)
-
-    def test_solution_2(self):
-        self.assertEqual(isPalindrome2("aabaa"), True)
-        self.assertEqual(isPalindrome2("aabbaa"), True)
-        self.assertEqual(isPalindrome2("abc"), False)
-        self.assertEqual(isPalindrome2(""), True)
-        self.assertEqual(isPalindrome2("a"), True)
-        self.assertEqual(isPalindrome2("A man, a plan, a canal: Panama"), True)
-
-    def test_solution_3(self):
-        self.assertEqual(isPalindrome3("aabaa"), True)
-        self.assertEqual(isPalindrome3("aabbaa"), True)
-        self.assertEqual(isPalindrome3("abc"), False)
-        self.assertEqual(isPalindrome3(""), True)
-        self.assertEqual(isPalindrome3("a"), True)
-        self.assertEqual(isPalindrome3("A man, a plan, a canal: Panama"), True)
-
-
-if __name__ == '__main__':
-    unittest.main()
