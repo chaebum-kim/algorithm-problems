@@ -3,56 +3,40 @@
 *   a separate doubly linked list. These child lists can also have one or more child
 *   doubly linked lists of their own, and so on.
 *   Return the list as a single level flattened doubly linked list
+*   https://leetcode.com/problems/flatten-a-multilevel-doubly-linked-list/
 '''
 
-from DLinkedList import Node, DLinkedList
+
+class Node:
+    def __init__(self, val, prev, next, child):
+        self.val = val
+        self.prev = prev
+        self.next = next
+        self.child = child
 
 
-def flattenList(linkedlist: DLinkedList) -> DLinkedList:
+def flatten_list(head: Node) -> Node:
 
-    prev = None
-    current = linkedlist.head
-
+    current = head
     while current is not None:
-        if (child := current.child) is not None:
+        if current.child is not None:
+            # Find the last node of child list
+            last_child = current.child
+            while last_child.next is not None:
+                last_child = last_child.next
 
-            # Find last node of child list
-            while child.next is not None:
-                child = child.next
+            # Link last child node to the next node
+            last_child.next = current.next
+            if last_child.next is not None:
+                last_child.next.prev = last_child
 
-            # Link child and next
-            if current.next is not None:
-                child.next = current.next
-                current.next.prev = child
-
-            # Link current and child
+            # Link child node to the current node
             current.next = current.child
-            current.child.prev = current
-
+            current.next.prev = current
             current.child = None
-
-        prev = current
         current = current.next
 
-    linkedlist.tail = prev
+    return head
 
-    return linkedlist
-
-# Time complexity: O(n)
+# Time complexity: O(N)
 # Space complexity: O(1)
-
-
-# Test
-linkedlist = DLinkedList().generateList(1, 7)
-childList1 = DLinkedList().generateList(7, 10)
-childList2 = DLinkedList().generateList(10, 12)
-childList3 = DLinkedList().generateList(12, 14)
-childList4 = DLinkedList().generateList(14, 17)
-
-linkedlist.appendChildList(2, childList1)
-linkedlist.appendChildList(8, childList2)
-linkedlist.appendChildList(5, childList3)
-linkedlist.appendChildList(6, childList4)
-
-linkedlist.visualize()
-flattenList(linkedlist).visualize()
