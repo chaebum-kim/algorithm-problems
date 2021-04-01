@@ -1,55 +1,44 @@
 ''' Question:
 *   Given a limited list and numbers m and n, return it back with only
 *   positions m to n in reverse
+*   https://leetcode.com/problems/reverse-linked-list-ii/
 '''
 
-from SLinkedList import Node, SLinkedList
+
+class ListNode:
+    def __init__(self, val=0, next_=None):
+        self.val = val
+        self.next = next_
 
 
-def reversePortion2(linkedlist: SLinkedList, m: int, n: int) -> SLinkedList:
+def partial_reverse(head: ListNode, m: int, n: int) -> ListNode:
 
+    reversed_ = None
+    current = head
     position = 1
-    start = None
-    current = linkedlist.head
 
-    # Store start node
     while position < m:
         start = current
         current = current.next
         position += 1
 
     end = current
-    newList = None
 
-    # Start reversing
     while position <= n:
         next_ = current.next
-        current.next = newList
-        newList = current
+        current.next = reversed_
+        reversed_ = current
         current = next_
         position += 1
 
-    # Attach head
-    if start is not None:
-        start.next = newList
+    end.next = current
+
+    if m > 1:
+        start.next = reversed_
     else:
-        linkedlist.head = newList
+        head = reversed_
 
-    # Attach tail
-    if current is not None:
-        end.next = current
-    else:
-        linkedlist.tail = end
+    return head
 
-    return linkedlist
-
-# Time complexity: O(n)
+# Time complexity: O(N)
 # Space complexity: O(1)
-
-
-# Test
-linkedlist = SLinkedList().generateList(length=7)
-
-reversePortion2(linkedlist, 2, 6).listprint()
-print(linkedlist.head.key)
-print(linkedlist.tail.key)
