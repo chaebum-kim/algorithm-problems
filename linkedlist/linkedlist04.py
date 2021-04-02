@@ -1,64 +1,52 @@
 ''' Question:
 *   Cycle detection
+*   https://leetcode.com/problems/linked-list-cycle-ii/
 '''
-from SLinkedList import Node, SLinkedList
+
+
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
 
 
 # Brute force solution
-def isCycledList1(linkedlist: SLinkedList) -> Node:
+def detect_cycle_brute()
 
-    current = linkedlist.head
-    seenNodes = set()
-
-    while current is not None and current not in seenNodes:
-        seenNodes.add(current)
+ seen = set()
+  current = head
+   while current is not None:
+        if current in seen:
+            return current
+        seen.add(current)
         current = current.next
 
-    ret = current or False
+    return None
 
-    # Return starting node of cycled or False if list is not cycled
-    return ret
-
-# Time complexity: O(n)
-# Space complexity: O(n)
+# Time complexity: O(N)
+# Space complexity: O(N)
 
 
 # Floyd's Tortoise and Hare Algorithm
-def isCycledList2(linkedlist: SLinkedList) -> Node:
-    tortoise = linkedlist.head
-    hare = tortoise
-    flag = False  # To execute the loop at least once
+def detect_cycle_optimal(head: ListNode) -> ListNode:
 
-    # Get meeting point
-    while tortoise != hare or not flag:
-        if hare is None or hare.next is None:
-            return False
+    t = h = head
+    while True:
+        if t is None or t.next is None:
+            return None
+        if h.next is None or h.next.next is None:
+            return None
 
-        flag = True
-        tortoise = tortoise.next
-        hare = hare.next.next
+        t = t.next
+        h = h.next.next
+        if t == h:
+            break
 
-    # Get starting point
-    tortoise = linkedlist.head
-    while tortoise != hare:
-        tortoise = tortoise.next
-        hare = hare.next
+    t = head
+    while t != h:
+        t = t.next
+        h = h.next
+    return t
 
-    return tortoise
-
-# Time complexity: O(n)
+# Time complexity: O(N)
 # Space complexity: O(1)
-
-
-# Test
-cycledlist = SLinkedList().generateList(8)
-start = cycledlist.getNode(3)
-cycledlist.tail.next = start
-
-noncycledlist = SLinkedList().generateList(8)
-
-print(isCycledList1(cycledlist).key)
-print(isCycledList1(noncycledlist))
-
-print(isCycledList2(cycledlist).key)
-print(isCycledList2(noncycledlist))
