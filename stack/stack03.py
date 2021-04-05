@@ -6,28 +6,28 @@
 
 class QueueWithStacks:
     def __init__(self):
-        self.stackIn = []
-        self.stackOut = []
+        self.stack_in = []
+        self.stack_out = []
 
     def enque(self, value):
-        self.stackIn.append(value)
+        self.stack_in.append(value)
 
     def deque(self):
-        if not self.stackOut:
-            while self.stackIn:
-                self.stackOut.append(self.stackIn.pop())
+        if not self.stack_out:
+            while self.stack_in:
+                self.stack_out.append(self.stack_in.pop())
 
-        return self.stackOut.pop()
+        return self.stack_out.pop()
 
     def peek(self):
-        if not self.stackOut:
-            while self.stackIn:
-                self.stackOut.append(self.stackIn.pop())
+        if not self.stack_out:
+            while self.stack_in:
+                self.stack_out.append(self.stack_in.pop())
 
-        return self.stackOut[len(self.stackOut)-1]
+        return self.stack_out[len(self.stack_out)-1]
 
     def empty(self):
-        if self.stackIn or self.stackOut:
+        if self.stack_in or self.stack_out:
             return False
         else:
             return True
