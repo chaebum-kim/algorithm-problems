@@ -1,48 +1,31 @@
 ''' Question:
-*   Given a string only containing round brackets '(' and ')' and lower chase characters,
+*   Given a string only containing round brackets '(' and ')' and lower case characters,
 *   remove the least amount of brackets so the string is valid.
 *   A string is considered valid if it is empty or if there are brackets, they all close
+*   https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/
 '''
-from collections import deque
-import unittest
 
 
-def makeValidString(string: str) -> str:
+def remove_to_make_valid(s: str) -> str:
 
-    leftBrackets = deque()
-    stringToList = list(string)
+    stack = []
+    s = list(s)
 
-    for i, char in enumerate(stringToList):
-        if char == "(":
-            leftBrackets.append(i)
-        elif char == ")":
-            if leftBrackets:
-                leftBrackets.pop()
+    for i, char in enumerate(s):
+        if char == '(':
+            stack.append(i)
+        elif char == ')':
+            if stack:
+                stack.pop()
             else:
-                stringToList[i] = ""
+                s[i] = ''
 
-    while leftBrackets:
-        stringToList[leftBrackets.pop()] = ""
+    while stack:
+        s[stack.pop()] = ''
 
-    return "".join(stringToList)
+    new_s = ''.join(s)
 
-# Time complexity: O(n)
-# Space complexity: O(n)
+    return new_s
 
-
-class TestSolution(unittest.TestCase):
-    def test_1(self):
-        ''' a)bc(d) returns abc(d)'''
-        self.assertEqual(makeValidString("a)bc(d)"), "abc(d)")
-
-    def test_2(self):
-        ''' (ab(c)d returns ab(c)d '''
-        self.assertEqual(makeValidString("(ab(c)d"), "ab(c)d")
-
-    def test_3(self):
-        ''' ))(( returns empty string '''
-        self.assertEqual(makeValidString("))(("), "")
-
-
-if __name__ == '__main__':
-    unittest.main()
+# Time complexity: O(N)
+# Space complexity: O(N)
