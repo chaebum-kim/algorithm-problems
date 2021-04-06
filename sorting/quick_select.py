@@ -1,6 +1,7 @@
 ''' Question:
 *   Given an unsorted array, return the kth largest element.
 *   It is the kth largest element in sorted order, not the kth distinct element.
+*   https://leetcode.com/problems/kth-largest-element-in-an-array/
 '''
 
 from quick_sort import quick_sort, partition_on_pivot
@@ -36,7 +37,7 @@ def quick_select(x: list, left: int, right: int, key: int):
         else:
             return quick_select(x, pivot+1, right, key)
 
-# Time complexity: O(n^2), Θ(n), Ω(n)
+# Time complexity: O(N^2), Θ(N), Ω(N)
 # Space complexity: O(1)
 
 
