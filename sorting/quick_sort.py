@@ -9,21 +9,16 @@ def quick_sort(x: list, left: int, right: int) -> list:
 
 def partition_on_pivot(x: list, left: int, right: int) -> int:
 
-    i, j = left, left
+    pivot = left
 
     # Partiton
-    while j != right:
-        if x[j] < x[right]:
-            # Swap
-            x[i], x[j] = x[j], x[i]
-            i += 1
+    for i in range(left, right):
+        if x[i] < x[right]:
+            x[pivot], x[i] = x[i], x[pivot]
+            pivot += 1
 
-        j += 1
-
-    x[i], x[right] = x[right], x[i]
-
-    # Return pivot index
-    return i
+    x[pivot], x[right] = x[right], x[pivot]
+    return pivot
 
 # Time complexity: O(n^2), Θ(nlogn)
 # Space complexity: O(logn)
