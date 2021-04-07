@@ -1,49 +1,41 @@
 ''' Question:
 *   Given a binary tree, return the level order traversal of the
 *   nodes' values as an array
+*   https://leetcode.com/problems/binary-tree-level-order-traversal/
 '''
 
-from binary_tree import BinaryTree
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from collections import deque
 
 
-def level_order_values(binary_tree: BinaryTree) -> list:
+def level_order_values(root: TreeNode) -> List[List[int]]:
 
-    if binary_tree.root is None:
+    if root is None:
         return []
 
-    result = []
-    q = [binary_tree.root]
+    values = []
+    q = deque([root])
 
     while q:
-        length = len(q)
-        count = 0
-        values = []
+        level_count = len(q)
+        level_values = []
+        for i in range(level_count):
+            current = q.popleft()
+            values.append(current.val)
+            if current.left is not None:
+                q.append(current.left)
+            if current.right is not None:
+                q.append(current.right)
 
-        while count < length:
-            node = q.pop(0)
-            values.append(node.key)
-            if node.left is not None:
-                q.append(node.left)
-            if node.right is not None:
-                q.append(node.right)
-            count += 1
+        values.append(level_values)
 
-        result.append(values)
+    return values
 
-    return result
-
-# Time complexity: O(n)
-# Space complexity: O(n)
-
-
-# Test
-if __name__ == '__main__':
-    binary_tree = BinaryTree().make_tree_from_list([4, 2, 8, 1, 5, 9, 3])
-    print(level_order_values(binary_tree))
-
-    binary_tree = BinaryTree()
-    print(level_order_values(binary_tree))
-
-    binary_tree = BinaryTree()
-    binary_tree.insert(3)
-    print(level_order_values(binary_tree))
+# Time complexity: O(N)
+# Space complexity: O(N)
