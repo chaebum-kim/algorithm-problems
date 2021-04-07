@@ -2,75 +2,61 @@
 *   Given a binary tree, imagine you're standing to the right of the tree.
 *   Return an array of the values of the nodes you can see ordred from
 *   top to bottom.
+*   https://leetcode.com/problems/binary-tree-right-side-view/
 '''
 
-from binary_tree import BinaryTree
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+
+from collections import deque
 
 
 # Breadth first search approach
-def get_visible_nodes(binary_tree: BinaryTree) -> list:
+def right_side_view_bfs(root: TreeNode) -> List[int]:
 
-    if binary_tree.root is None:
+    if root is None:
         return []
 
-    q = [binary_tree.root]
-    result = []
-
+    values = []
+    q = deque([root])
     while q:
-        length = len(q)
-        count = 0
+        level_count = len(q)
+        for i in range(level_count):
+            current = q.popleft()
+            if current.left is not None:
+                q.append(current.left)
+            if current.right is not None:
+                q.append(current.right)
+        values.append(current.val)
 
-        while count < length:
-            node = q.pop(0)
-            if node.left is not None:
-                q.append(node.left)
-            if node.right is not None:
-                q.append(node.right)
-            count += 1
+    return values
 
-        result.append(node.key)
-
-    return result
-
-# Time complexity: O(n)
-# Space complexity: O(n) -- depends on size(width) of tree
+# Time complexity: O(N)
+# Space complexity: O(N) -- depends on the size(width) of tree
 
 
 # Depth first search approach
-def get_visible_nodes2(binary_tree: BinaryTree) -> list:
+def right_side_view_dfs(root: TreeNode) -> List[int]:
+    def dfs_traverse(node: TreeNode, values: list, level: int):
+        if node is None:
+            return None
+        if len(values) == level:
+            values.append(node.val)
+        level += 1
+        dfs_traverse(node.right, values, level)
+        dfs_traverse(node.left, values, level)
+
+    if root is None:
+        return []
+
     values = []
-    node_traverse(binary_tree.root, level=0, values=values)
+    dfs_traverse(root, values, 0)
     return values
 
-
-def node_traverse(node: BinaryTree.BinaryTreeNode, level: int, values: list) -> list:
-
-    if node is None:
-        return None
-
-    if len(values) == level:
-        values.append(node.key)
-
-    node_traverse(node.right, level+1, values)
-    node_traverse(node.left, level+1, values)
-
-# Time complexity: O(n)
-# Space complexity: O(n) -- depends on height of tree
-
-
-# Tests
-if __name__ == '__main__':
-    binary_tree1 = BinaryTree().make_tree_from_list(
-        [10, 2, 11, 1, 8, 13, 9])
-    binary_tree2 = BinaryTree().make_tree_from_list([1])
-    binary_tree3 = BinaryTree()
-
-    # Breadth first search
-    print(get_visible_nodes(binary_tree1))
-    print(get_visible_nodes(binary_tree2))
-    print(get_visible_nodes(binary_tree3))
-
-    # Depth first search
-    print(get_visible_nodes2(binary_tree1))
-    print(get_visible_nodes2(binary_tree2))
-    print(get_visible_nodes2(binary_tree3))
+# Time complexity: O(N)
+# Space complexity: O(N) -- depends on height of tree
