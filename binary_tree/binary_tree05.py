@@ -1,40 +1,29 @@
 ''' Question:
 *   Given a binary tree, determine if it is a valid binary search tree.
+*   https://leetcode.com/problems/validate-binary-search-tree/
 '''
 
-from binary_tree import BinaryTree
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
 import math
 
 
-def validate_binary_search_tree(binary_tree: BinaryTree) -> bool:
-    return validate_nodes(binary_tree.root, -math.inf, math.inf)
+def is_valid_BST(root: TreeNode) -> bool:
+    def is_valid_node(node, min_, max_):
+        if node is None:
+            return True
 
+        if not (min_ < node.val < max_):
+            return False
 
-def validate_nodes(node: BinaryTree.BinaryTreeNode, floor: int, ceiling: int):
+        return is_valid_node(node.left, min_, node.val) and \
+            is_valid_node(node.right, node.val, max_)
 
-    if not node:
-        return True
+    return is_valid_node(root, -math.inf, math.inf)
 
-    if node.key < floor or node.key > ceiling:
-        return False
-
-    return validate_nodes(node.left, floor=floor, ceiling=node.key)\
-        and validate_nodes(node.right, floor=node.key, ceiling=ceiling)
-
-# Time complexity: O(n)
-# Space complexity: O(n)
-
-
-# Test
-if __name__ == '__main__':
-    binary_tree1 = BinaryTree().make_tree_from_list(
-        [15, 12, 17, 10, 19, 16, 18])
-    binary_tree2 = BinaryTree().make_tree_from_list(
-        [15, 12, 18, 10, 14, 13, 20])
-    binary_tree3 = BinaryTree().make_tree_from_list([12, 7, 18, 5, 9, 16, 25])
-    binary_tree4 = BinaryTree().make_tree_from_list([1])
-
-    print(validate_binary_search_tree(binary_tree1))
-    print(validate_binary_search_tree(binary_tree2))
-    print(validate_binary_search_tree(binary_tree3))
-    print(validate_binary_search_tree(binary_tree4))
+# Time complexity: O(N)
+# Space complexity: O(N)
