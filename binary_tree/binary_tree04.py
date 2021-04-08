@@ -1,46 +1,83 @@
 ''' Question:
 *   Given a complete binary tree, count the number of nodes.
+*   https://leetcode.com/problems/count-complete-tree-nodes/
 '''
-from binary_tree import BinaryTree
+
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
 import math
 
 
-def count_nodes(binary_tree: BinaryTree) -> int:
+def count_nodes1(root: TreeNode) -> int:
+    def node_exists(root, height, index_to_find) -> bool:
+        left, right = 0, 2**height-1
+        current = root
+        for i in range(height):
+            middle = math.ceil((left+right)/2)
+            if index_to_find >= middle:
+                current = current.right
+                left = middle
+            else:
+                current = current.left
+                right = middle - 1
+        return current is not None
 
-    # Evaluate height of tree
-    current = binary_tree.root
+    if root is None:
+        return 0
+
     height = 0
+    current = root.left
     while current is not None:
         height += 1
         current = current.left
+    upper = 2**height-1
 
-    # Count the number of nodes except last nodes
-    counter = 2 ** (height-1) - 1
-
-    # Count the number of last nodes
-    root = binary_tree.root
-    left = 0
-    right = counter
-
+    left, right = 0, upper
     while left < right:
-        middle = math.ceil((left + right) / 2)
-        dirs = format(middle, f'0{height-1}b')
-        node = root
-
-        for direction in dirs:
-            if direction == '0':
-                node = node.left
-            else:
-                node = node.right
-
-        if node is not None:
+        middle = math.ceil((left+right)/2)
+        if node_exists(root, height, middle):
             left = middle
         else:
             right = middle - 1
 
-    counter += (left + 1)
+    return upper + left + 1
 
-    return counter
+
+def count_nodes2(root: TreeNode) -> int:
+
+    if root is None:
+        return 0
+
+    height = 0
+    current = root.left
+    while current is not None:
+        height += 1
+        current = current.left
+    upper = 2**height-1
+
+    # Count the number of last nodes
+    left, right = 0, upper
+    while left < right:
+        middle = math.ceil((left + right) / 2)
+        dirs = format(middle, f'0{height}b')
+        current = root
+
+        for direction in dirs:
+            if direction == '0':
+                current = current.left
+            else:
+                current = current.right
+
+        if current is not None:
+            left = middle
+        else:
+            right = middle - 1
+
+    return upper + left + 1
 
 # Time complexity: O(h^2) -- h = height of tree
 # Space complexity: O(1)
