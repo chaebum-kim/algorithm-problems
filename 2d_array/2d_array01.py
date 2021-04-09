@@ -1,7 +1,7 @@
 ''' Question:
-*   Given a 2D array containing only 1's(land) and 0's(water),
-*   count the number of islands. An island is land connected 
-*    horizontally or vertically.
+*   Given a 2D array containing only 1's(land) and 0's(water), count the number of islands.
+*   An island is land connected horizontally or vertically.
+*   https://leetcode.com/problems/number-of-islands/
 '''
 
 directions = [
@@ -12,51 +12,50 @@ directions = [
 ]
 
 
-def count_islands(matrix: list) -> int:
+# Depth-first search
+def count_islands_dfs(grid: List[List[str]]) -> int:
+    def exclude_island(grid, row, col):
+        if not (0 <= row < m and 0 <= col < n):
+            return None
+        if grid[row][col] == '1':
+            grid[row][col] = '0'
+            for direction in directions:
+                exclude_island(grid, row+direction[0], col+direction[1])
 
     count = 0
-    for row in range(len(matrix)):
-        for col in range(len(matrix[0])):
-            if matrix[row][col] == 1:
+    m, n = len(grid), len(grid[0])
+    for row in range(m):
+        for col in range(n):
+            if grid[row][col] == '1':
+                exclude_island(grid, row, col)
                 count += 1
-                exclude_old_island(matrix, row, col)
 
     return count
 
 
-def exclude_old_island(matrix: list, row: int, col: int):
+# Breadth-first search
+def count_islands_bfs(grid: List[List[str]]) -> int:
+    def exclude_old_island(grid, row, col):
+        q = [[row, col]]
+        while q:
+            current = q.pop(0)
+            row = current[0]
+            col = current[1]
 
-    matrix[row][col] = 0
-    q = [[row, col]]
+            if 0 <= row < m and 0 <= col < n and grid[row][col] == '1':
+                grid[row][col] = '0'
+                for direction in directions:
+                    q.append([row+direction[0], col+direction[1]])
 
-    while q:
-        current = q.pop(0)
-        row = current[0]
-        col = current[1]
+        count = 0
+        m, n = len(grid), len(grid[0])
+        for row in range(m):
+            for col in range(n):
+                if grid[row][col] == '1':
+                    count += 1
+                    exclude_old_island(grid, row, col)
 
-        for direction in directions:
-            next_row = row + direction[0]
-            next_col = col + direction[1]
+        return count
 
-            if next_row in range(len(matrix)) and next_col in range(len(matrix[0]))\
-                    and matrix[next_row][next_col] == 1:
-                matrix[next_row][next_col] = 0
-                q.append([next_row, next_col])
-
-# Time complexity: O(m*n) // m = row, n = column
-# Space compleity: O(max(m,n))
-
-
-# Test
-if __name__ == '__main__':
-    matrix1 = [[1, 1, 1, 1, 0], [1, 1, 0, 1, 0],
-               [1, 1, 0, 0, 1], [0, 0, 0, 1, 1]]
-    matrix2 = [[0, 1, 0, 1, 0], [1, 0, 1, 0, 1],
-               [0, 1, 1, 1, 0], [1, 0, 1, 0, 1]]
-    matrix3 = []
-    matrix4 = [[], []]
-
-    print(count_islands(matrix1))
-    print(count_islands(matrix2))
-    print(count_islands(matrix3))
-    print(count_islands(matrix4))
+# Time complexity: O(M*N) // M = row, N = column
+# Space compleity: O(max(M,N))
