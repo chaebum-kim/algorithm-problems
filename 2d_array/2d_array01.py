@@ -3,6 +3,7 @@
 *   An island is land connected horizontally or vertically.
 *   https://leetcode.com/problems/number-of-islands/
 '''
+from collections import deque
 
 directions = [
     [-1, 0],
@@ -36,9 +37,9 @@ def count_islands_dfs(grid: List[List[str]]) -> int:
 # Breadth-first search
 def count_islands_bfs(grid: List[List[str]]) -> int:
     def exclude_old_island(grid, row, col):
-        q = [[row, col]]
+        q = deque([[row, col]])
         while q:
-            current = q.pop(0)
+            current = q.popleft()
             row = current[0]
             col = current[1]
 
