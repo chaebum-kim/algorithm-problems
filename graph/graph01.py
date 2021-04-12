@@ -8,52 +8,29 @@
 *   He will inform direct subordinates who will inform their direct subordinates and so on
 *   until everyone knows th news.
 *   You will receive an informTime array where informTime[i] is the time it takes
-*   form employee i to inform all their direct subordinates.
+*   for employee i to inform all their direct subordinates.
 *   Return the total number of minutes it takes to inform all employees of the news.
+*   https://leetcode.com/problems/time-needed-to-inform-all-employees/
 '''
 
 
-def get_total_time(managers: list, head_id: int, inform_time: int) -> int:
+def num_of_minutes(n: int, managers: list, head_id: int, inform_time: int) -> int:
+    def inform_employees(employee_id):
+        if not adj_list[employee_id]:
+            return 0
+
+        max_time = 0
+        for e in adj_list[employee_id]:
+            max_time = max(max_time, inform_employees(e))
+        return inform_time[employee_id] + max_time
 
     # Create adjacency list representing subordination relationships
-    relationships = [[] for x in range(len(managers))]
-    for subordinate, manager in enumerate(managers):
-        if manager != -1:
-            relationships[manager].append(subordinate)
+    adj_list = [[] for x in range(n)]
+    for e, m in enumerate(managers):
+        if m != -1:
+            adj_list[m].append(e)
 
-    # Get total number of minutes it takes to inform the news
-    return minutes_to_inform_news(relationships, head_id, inform_time)
+    return inform_employees(head_id)
 
-
-def minutes_to_inform_news(relationships: list, current_id: int, inform_time: list):
-
-    if not relationships[current_id]:
-        return 0
-
-    max_minutes = 0
-    for subordinate in relationships[current_id]:
-        max_minutes = max([max_minutes, minutes_to_inform_news(
-            relationships, subordinate, inform_time)])
-
-    return inform_time[current_id] + max_minutes
-
-# Time complexity: O(n)
-# Space complexity: O(n)
-
-
-if __name__ == '__main__':
-
-    head_id = 4
-    managers = [2, 2, 4, 6, -1, 4, 4, 5]
-    inform_time = [0, 0, 4, 0, 7, 3, 6, 0]
-    print(get_total_time(managers, head_id, inform_time))
-
-    head_id = 0
-    managers = [-1]
-    inform_time = [0]
-    print(get_total_time(managers, head_id, inform_time))
-
-    head_id = 6
-    managers = [1, 2, 3, 4, 5, 6, -1]
-    inform_time = [0, 6, 5, 4, 3, 2, 1]
-    print(get_total_time(managers, head_id, inform_time))
+# Time complexity: O(N)
+# Space complexity: O(N)
