@@ -1,5 +1,5 @@
 ''' Question:
-*   Given an 2D array containing -1's(walls), 0's gates and INF's (empty room).
+*   Given an 2D array containing -1's(walls), 0's (gates)g and INF's (empty room).
 *   Fill each empty room with the number of steps to the nearest gate.
 *   If it is impossible to reach a gate, leave INF as the value.
 *   INF is equal to 2147483647.
@@ -17,27 +17,23 @@ GATE = 0
 INF = 2147483647
 
 
-def fill_with_distance(matrix: list) -> list:
+def fill_with_distance(grid: list) -> list:
+    def count_steps(grid, row, col, step):
+        if 0 <= row < m and 0 <= col < n and grid[row][col] >= step:
+            grid[row][col] = step
+            step += 1
+            for direction in directions:
+                count_steps(grid, row+direction[0], col+direction[1], step)
 
-    for row in range(len(matrix)):
-        for col in range(len(matrix[0])):
-            if matrix[row][col] == GATE:
-                evaluate_distance_from_gate(matrix, row, col, 0)
-    return matrix
+    m, n = len(grid), len(grid[0])
+    for row in range(m):
+        for col in range(n):
+            if grid[row][col] == GATE:
+                count_steps(grid, row, col, 0)
+    return grid
 
-
-def evaluate_distance_from_gate(matrix: list, row: int, col: int, distance: int):
-
-    if row in range(len(matrix)) and col in range(len(matrix[0]))\
-            and distance <= matrix[row][col]:
-        matrix[row][col] = distance
-
-        for direction in directions:
-            evaluate_distance_from_gate(
-                matrix, row+direction[0], col+direction[1], distance+1)
-
-# Time complexity: O(n)
-# Space complexity: O(n)
+# Time complexity: O(N)
+# Space complexity: O(N)
 
 
 # Test
