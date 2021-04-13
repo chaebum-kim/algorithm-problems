@@ -6,80 +6,64 @@
 *   return if it is possible to finish all courses.
 '''
 
+from collections import deque
+
 
 # Brute force solution
-def is_valid_course1(n: int, prereqs: list) -> bool:
+def can_finish_brute(n: int, prereqs: list) -> bool:
 
     # Build graph from prereqs
     adj_list = [[] for x in range(n)]
     for pair in prereqs:
         adj_list[pair[1]].append(pair[0])
 
-    q1 = [x for x in range(n)]
-    q2 = []
-
-    for vertex in range(n):
-        q = []
+    for course in range(n):
+        q = deque()
         seen = {}
-        for connection in adj_list[vertex]:
-            q.append(connection)
+        q.extend(adj_list[course])
 
         while q:
-            current = q.pop(0)
+            current = q.popleft()
             seen[current] = True
 
-            if current == vertex:
+            if current == course:
                 return False
 
-            for connection in adj_list[current]:
-                if not seen.get(connection):
-                    q.append(connection)
+            for next_course in adj_list[current]:
+                if seen.get(next_course) is None:
+                    q.append(next_course)
 
     return True
 
-# Time complexity: O(p+n^3)
-# Space complexity: O(n^2)
+# Time complexity: O(p+N^3) // p = len(prereqs)
+# Space complexity: O(N^2)
 
 
-# Topological Sort
-def is_valid_course2(n: int, prereqs: list) -> bool:
+# Utilizing Topological Sort(for directed acyclic graph)
+def can_finish_optimal(n: int, prereqs: list) -> bool:
 
     # Build graph from prereqs
     adj_list = [[] for x in range(n)]
-    indegrees = [0 for x in range(n)]
+    in_degrees = [0 for x in range(n)]
     for pair in prereqs:
         adj_list[pair[1]].append(pair[0])
-        indegrees[pair[0]] += 1
+        in_degrees[pair[0]] += 1
 
     stack = []
-    for vertex, indegree in enumerate(indegrees):
-        if indegree == 0:
-            stack.append(vertex)
+    for course, in_degree in enumerate(in_degrees):
+        if in_degree == 0:
+            stack.append(course)
 
     count = 0
     while stack:
         current = stack.pop()
         count += 1
-        for connection in adj_list[current]:
-            indegrees[connection] -= 1
-            if indegrees[connection] == 0:
-                stack.append(connection)
+        for next_course in adj_list[current]:
+            in_degrees[next_course] -= 1
+            if in_degrees[next_course] == 0:
+                stack.append(next_course)
 
     return count == n
 
-# Time complexity: O(p+n^2)
-# Space complexity: O(n^2)
-
-
-# Test
-if __name__ == '__main__':
-    n1 = 6
-    prereqs1 = [[1, 0], [2, 1], [2, 5], [0, 3], [4, 3], [3, 5], [4, 5]]
-
-    n2 = 7
-    prereqs2 = [[0, 3], [1, 0], [2, 1], [4, 5], [6, 4], [5, 6]]
-
-    print(is_valid_course1(n1, prereqs1))
-    print(is_valid_course1(n2, prereqs2))
-    print(is_valid_course2(n1, prereqs1))
-    print(is_valid_course2(n2, prereqs2))
+# Time complexity: O(p+N^2)
+# Space complexity: O(N^2)
