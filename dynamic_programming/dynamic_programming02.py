@@ -30,8 +30,8 @@ def knight_prob1(n: int, k: int, r: int, c: int) -> float:
 
         result = 0
         for direction in DIRECTIONS:
-            new_row, new_col = r + direction[0], c + direction[1]
-            result += prob_so_far(n, k-1, new_row, new_col) / 8
+            next_row, next_col = r + direction[0], c + direction[1]
+            result += prob_so_far(n, k-1, next_row, next_col) / 8
 
         return result
 
@@ -55,8 +55,8 @@ def knight_prob2(n: int, k: int, r: int, c: int) -> float:
 
         result = 0
         for direction in DIRECTIONS:
-            new_row, new_col = r + direction[0], c+direction[1]
-            result += prob_so_far(n, k-1, new_row, new_col, dp) / 8
+            next_row, next_col = r + direction[0], c+direction[1]
+            result += prob_so_far(n, k-1, next_row, next_col, dp) / 8
         dp[k][r][c] = result
         return result
 
@@ -72,20 +72,22 @@ def knight_prob2(n: int, k: int, r: int, c: int) -> float:
 # Iterative Solution
 def knight_prob3(n: int, k: int, r: int, c: int) -> float:
 
-    # Initialize previous board
     prev = [[0 for x in range(n)] for y in range(n)]
     prev[r][c] = 1
+    knights = {(r, c)}
 
     for i in range(k):
-        # Initialize current board
         current = [[0 for x in range(n)] for y in range(n)]
-        for row in range(n):
-            for col in range(n):
-                for direction in DIRECTIONS:
-                    prev_row, prev_col = row + direction[0], col + direction[1]
-                    if 0 <= prev_row < n and 0 <= prev_col < n:
-                        current[row][col] += prev[prev_row][prev_col] / 8
+        next_knights = set()
+        while knights:
+            row, col = knights.pop()
+            for direction in DIRECTIONS:
+                next_row, next_col = row+direction[0], col+direction[1]
+                if 0 <= next_row < n and 0 <= next_col < n:
+                    current[next_row][next_col] += prev[row][col] / 8
+                    next_knights.add((next_row, next_col))
         prev = current
+        knights = next_knights
 
     return sum(map(sum, prev))
 
