@@ -17,19 +17,19 @@ class Monarchy:
 
     def __init__(self, king: str):
         self.king = self.Person(king)
-        self._persons = {self.king.name: self.king}
+        self._members = {self.king.name: self.king}
 
     def birth(self, child: str, parent: str):
-        if self._persons.get(parent) is None:
+        if self._members.get(parent) is None:
             raise KeyError(f'{parent} is not a member of the monarchy.')
         new_child = self.Person(child)
-        self._persons[parent].children.append(new_child)
-        self._persons[new_child.name] = new_child
+        self._members[parent].children.append(new_child)
+        self._members[new_child.name] = new_child
 
     def death(self, name: str):
-        if self._persons.get(name) is None:
+        if self._members.get(name) is None:
             raise KeyError(f'{name} is not a member of the monarchy.')
-        self._persons[name].is_alive = False
+        self._members[name].is_alive = False
 
     def get_order_of_succession(self):
         person = self.king
@@ -40,7 +40,7 @@ class Monarchy:
     def _dfs_succession(self, person, order):
         if person.is_alive:
             order.append(person.name)
-        for child in self._persons[person.name].children:
+        for child in self._members[person.name].children:
             self._dfs_succession(child, order)
 
 
