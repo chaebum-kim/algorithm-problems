@@ -8,11 +8,47 @@
 '''
 
 
-class Trie:
+# Iterative solution
+class Trie1:
     class TrieNode:
         def __init__(self):
             self.keys = {}
-            self.is_end = False
+            self.end = False
+
+    def __init__(self):
+        self.root = self.TrieNode()
+
+    def insert(self, word):
+        node = self.root
+        for letter in word:
+            if letter not in node.keys:
+                node.keys[letter] = self.TrieNode()
+            node = node.keys[letter]
+        node.end = True
+
+    def search(self, word):
+        node = self.root
+        for letter in word:
+            if letter not in node.keys:
+                return False
+            node = node.keys[letter]
+        return node.end
+
+    def starts_with(self, prefix):
+        node = self.root
+        for letter in prefix:
+            if letter not in node.keys:
+                return False
+            node = node.keys[letter]
+        return True
+
+
+# Recursive solution
+class Trie2:
+    class TrieNode:
+        def __init__(self):
+            self.keys = {}
+            self.end = False
 
     def __init__(self):
         self.root = self.TrieNode()
@@ -21,38 +57,46 @@ class Trie:
         if node is None:
             node = self.root
         if not word:
-            node.is_end = True
+            node.end = True
             return None
-        elif node.keys.get(word[0]) is None:
+        if word[0] not in node.keys:
             node.keys[word[0]] = self.TrieNode()
-            self.insert(word[1:], node.keys[word[0]])
-        else:
-            self.insert(word[1:], node.keys[word[0]])
+        self.insert(word[1:], node.keys[word[0]])
 
     def search(self, word, node=None):
         if node is None:
             node = self.root
         if not word:
-            return True if node.is_end else False
-        elif node.keys.get(word[0]) is None:
+            return node.end
+        if word[0] not in node.keys:
             return False
-        else:
-            return self.search(word[1:], node.keys[word[0]])
+        return self.search(word[1:], node.keys[word[0]])
 
     def starts_with(self, prefix, node=None):
         if node is None:
             node = self.root
         if not prefix:
             return True
-        elif node.keys.get(prefix[0]) is None:
+        if prefix[0] not in node.keys:
             return False
-        else:
-            return self.starts_with(prefix[1:], node.keys[prefix[0]])
+        return self.starts_with(prefix[1:], node.keys[prefix[0]])
 
 
 # Test
 if __name__ == '__main__':
-    trie = Trie()
+    print('trie1_test')
+    trie = Trie1()
+    trie.insert('apple')
+    print(trie.search('apple'))
+    print(trie.search('dog'))
+    trie.insert('dog')
+    print(trie.search('dog'))
+    print(trie.search('app'))
+    print(trie.starts_with('app'))
+    print('-------------------------------')
+
+    print('trie2_test')
+    trie = Trie2()
     trie.insert('apple')
     print(trie.search('apple'))
     print(trie.search('dog'))
