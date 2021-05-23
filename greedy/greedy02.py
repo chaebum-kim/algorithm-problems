@@ -10,7 +10,6 @@ def solution(name):
                  'N': 13, 'O': 12, 'P': 11, 'Q': 10, 'R': 9, 'S': 8,
                  'T': 7, 'U': 6, 'V': 5, 'W': 4, 'X': 3, 'Y': 2, 'Z': 1}
 
-    n = len(name)
     cursor, answer = 0, 0
 
     moves = [alphabets[alpha] for alpha in name]
