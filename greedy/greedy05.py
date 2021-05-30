@@ -4,9 +4,8 @@
 
 from collections import deque
 
+
 # My solution
-
-
 def solution1(n, costs):
 
     total = 0
