@@ -13,10 +13,8 @@ DIRS = {
 def solution(rows, columns, queries):
 
     # Build original matrix
-    matrix = [[0 for c in range(columns)] for r in range(rows)]
-    for r in range(rows):
-        for c in range(columns):
-            matrix[r][c] = r * columns + c + 1
+    matrix = [
+        [r * columns + c + 1 for c in range(columns)] for r in range(rows)]
 
     result = []
     for q in queries:
