@@ -52,7 +52,7 @@ def is_almost_palindrome_optimal(s: str) -> bool:
 
     while pl < pr:
         if s[pl] != s[pr]:
-            return self.is_valid(s, pl+1, pr) or self.is_valid(s, pl, pr-1)
+            return is_valid(s, pl+1, pr) or is_valid(s, pl, pr-1)
         pl += 1
         pr -= 1
 
