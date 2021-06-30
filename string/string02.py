@@ -9,14 +9,14 @@
 def get_longest_substring_brute(s: str) -> int:
 
     max_length = 0
-    strlen = len(string)
+    strlen = len(s)
     for start in range(strlen):
         seen = {}
         length = 0
         i = start
 
-        while i < strlen and seen.get(string[i]) is None:
-            seen[string[i]] = True
+        while i < strlen and seen.get(s[i]) is None:
+            seen[s[i]] = True
             length += 1
             i += 1
 
